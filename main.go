@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"sync"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sts"
@@ -14,6 +15,7 @@ func main() {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(CountRequests)
 	Router(r)
 
 	log.Println("Server started")
@@ -41,6 +43,44 @@ func Router(r *gin.Engine) {
 
 		c.JSON(http.StatusOK, response)
 	})
+
+	r.GET("/counter", func(c *gin.Context) {
+		response := map[string]int{
+			"count": counter,
+		}
+
+		c.JSON(http.StatusOK, response)
+	})
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.String(http.StatusOK, "pong")
+	})
+
+	r.GET("/switch", func(c *gin.Context) {
+		mutex.Lock()
+		switchStatus = !switchStatus
+		mutex.Unlock()
+
+		c.JSON(http.StatusOK, gin.H{
+			"status": switchStatus,
+		})
+	})
+
+	r.GET("/liveness", func(c *gin.Context) {
+		if switchStatus {
+			c.String(http.StatusOK, "Liveness Probe")
+		} else {
+			c.String(http.StatusServiceUnavailable, "Liveness Probe")
+		}
+	})
+
+	r.GET("/readiness", func(c *gin.Context) {
+		if switchStatus {
+			c.String(http.StatusOK, "Readiness Probe")
+		} else {
+			c.String(http.StatusServiceUnavailable, "Readiness Probe")
+		}
+	})
 }
 
 func getStringValue(s *string) string {
@@ -49,3 +89,19 @@ func getStringValue(s *string) string {
 	}
 	return *s
 }
+
+var counter int
+var counterMutex sync.Mutex
+
+func CountRequests(c *gin.Context) {
+	counterMutex.Lock()
+	defer counterMutex.Unlock()
+
+	counter++
+	c.Next()
+}
+
+var (
+	switchStatus bool = true
+	mutex        sync.Mutex
+)
