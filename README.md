@@ -1,4 +1,4 @@
-# Go-dummy
+# Golang-app
 
 This is a Go application built with the Gin framework. It includes several endpoints for various functionalities.
 
@@ -6,6 +6,13 @@ This is a Go application built with the Gin framework. It includes several endpo
 
 - Go (version 1.20 or higher) installed
 - AWS credentials properly configured if using the `/` endpoint
+
+## Build
+
+```
+go mod tidy
+go build -o golang-app
+```
 
 ## Endpoints
 
