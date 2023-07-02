@@ -19,7 +19,7 @@ func main() {
 	Router(r)
 
 	log.Println("Server started")
-	r.Run()
+	r.Run(":8082")
 }
 
 func Router(r *gin.Engine) {

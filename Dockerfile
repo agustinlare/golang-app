@@ -7,4 +7,6 @@ COPY . .
 RUN go mod tidy
 RUN go build
 
+EXPOSE 8082
+
 CMD ["./go-dummy"]
