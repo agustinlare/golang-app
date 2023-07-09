@@ -10,6 +10,6 @@ COPY . .
 RUN go mod tidy
 RUN go build
 
-EXPOSE $EXPOSED_PORT
+EXPOSE ${EXPOSED_PORT}
 
 CMD ["./golang-app"]
