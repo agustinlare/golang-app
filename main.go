@@ -22,6 +22,8 @@ func main() {
 
 	log.Println("Server started")
 	// Port
+	fmt.Println("alksdjakljsdjklasdkjlasjkld")
+	fmt.Println(os.Getenv("EXPOSED_PORT"))
 	r.Run(fmt.Sprintf(":%s", os.Getenv("EXPOSED_PORT")))
 }
 

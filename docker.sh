@@ -2,11 +2,11 @@
 set -x
 IMAGE_NAME=quay.io/agustinlare/test-image
 TAG=golang120
-PORT=8082
+PORT=8080
 UNIQUEID=$RANDOM
 
 main (){
-    docker build -t $IMAGE_NAME:$TAG .
+    docker build --build-arg EXPOSED_PORT=$PORT -t $IMAGE_NAME:$TAG .
     test
 }
 test (){
