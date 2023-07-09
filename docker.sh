@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 IMAGE_NAME=quay.io/agustinlare/test-image
-TAG=golang120
+TAG=golang120-x86-dummy
 PORT=8080
 UNIQUEID=$RANDOM
 
