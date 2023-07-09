@@ -17,6 +17,7 @@ func main() {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	// gin.Default().SetTrustedProxies([]string{"192.168.1.0/24"})
 	r.Use(CountRequests)
 	Router(r)
 
