@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -19,7 +21,8 @@ func main() {
 	Router(r)
 
 	log.Println("Server started")
-	r.Run(":8082")
+	// Port
+	r.Run(fmt.Sprintf(":%s", os.Getenv("EXPOSED_PORT")))
 }
 
 func Router(r *gin.Engine) {
