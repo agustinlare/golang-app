@@ -12,4 +12,4 @@ RUN go build
 
 EXPOSE $EXPOSED_PORT
 
-CMD ["./go-dummy"]
+CMD ["./golang-app"]
